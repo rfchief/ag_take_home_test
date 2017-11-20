@@ -52,31 +52,49 @@ public class HotelRepositoryTest {
         //then
         assertThat(repository.countAll(), greaterThanOrEqualTo(given.size()));
         for (Integer givenHotelId : given)
-            assertThat(repository.isExists(givenHotelId), is(true));
+            assertThat(repository.exists(givenHotelId), is(true));
     }
 
     @Test
-    public void givenNewHotelId_whenRemove_thenDoNothingTest() {
+    public void givenNewHotelIds_whenReplace_thenReplacedAllElementsTest() {
         //given
-        int newHotelId = 5;
-        int initSize = repository.countAll();
+        List<Integer> newHotelIds = Lists.newArrayList(90, 91, 92, 93, 94, 95, 96, 97);
 
         //when
-        repository.remove(newHotelId);
+        repository.replace(newHotelIds);
 
         //then
-        assertThat(repository.countAll(), equalTo(initSize));
+        assertThat(repository.countAll(), equalTo(newHotelIds.size()));
+        for (Integer newHotelId : newHotelIds)
+            assertThat(repository.exists(newHotelId), is(true));
+
     }
 
     @Test
-    public void givenExistHotelId_whenRemove_thenRemovedElementIsNotExistTest() {
+    public void givenAlreadyExistHotelIds_whenExists_thenReturnAllTrueTest() {
         //given
-        int givenHotelId = 1;
+        List<Integer> insertedHotelIds = TestDataFactory.getHotelIds();
 
         //when
-        repository.remove(givenHotelId);
+        List<Boolean> actual = repository.exists(insertedHotelIds);
 
         //then
-        assertThat(repository.isExists(givenHotelId), is(false));
+        for (Boolean exist : actual)
+            assertThat(exist, is(true));
+    }
+
+    @Test
+    public void givenAlreadyInsertedAndNewHotelIds_whenExists_thenReturnTrueAndFalseTest() {
+        //given
+        int notExistHotelId = 99;
+        List<Integer> givenHotelIds = TestDataFactory.getHotelIds();
+        givenHotelIds.add(notExistHotelId);
+
+        //when
+        List<Boolean> actual = repository.exists(givenHotelIds);
+
+        //then
+        for (int i = 0; i < givenHotelIds.size(); i++)
+            assertThat(repository.exists(givenHotelIds.get(i)), is(actual.get(i)));
     }
 }

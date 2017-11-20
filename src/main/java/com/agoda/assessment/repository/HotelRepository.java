@@ -7,7 +7,9 @@ public interface HotelRepository {
 
     int countAll();
 
-    boolean isExists(Integer hotelId);
+    boolean exists(Integer hotelId);
 
-    void remove(Integer hotelId);
+    void replace(List<Integer> newHotelIds);
+
+    List<Boolean> exists(List<Integer> hotelIds);
 }

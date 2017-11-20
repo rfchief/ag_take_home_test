@@ -1,11 +1,13 @@
 package com.agoda.assessment.repository.impl;
 
 import com.agoda.assessment.repository.HotelRepository;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -33,12 +35,22 @@ public class HotelRepositoryImpl implements HotelRepository {
     }
 
     @Override
-    public boolean isExists(Integer hotelId) {
+    public boolean exists(Integer hotelId) {
         return hotelIdStorage.contains(hotelId);
     }
 
     @Override
-    public void remove(Integer hotelId) {
-        hotelIdStorage.remove(hotelId);
+    public void replace(List<Integer> newHotelIds) {
+        hotelIdStorage.clear();
+        hotelIdStorage.addAll(newHotelIds);
     }
+
+    @Override
+    public List<Boolean> exists(List<Integer> hotelIds) {
+        List<Boolean> exists = Lists.newArrayListWithExpectedSize(hotelIds.size());
+        for (Integer hotelId : hotelIds)
+            exists.add(hotelIdStorage.contains(hotelId));
+        return exists;
+    }
+
 }
