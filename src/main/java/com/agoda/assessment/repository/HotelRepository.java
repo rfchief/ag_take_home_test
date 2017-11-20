@@ -1,15 +1,14 @@
 package com.agoda.assessment.repository;
 
 import java.util.List;
+import java.util.Set;
 
 public interface HotelRepository {
-    void save(List<Integer> hotelIds);
-
     int countAll();
 
     boolean exists(Integer hotelId);
 
-    void replace(List<Integer> newHotelIds);
+    void replace(Set<Integer> newHotelIds);
 
     List<Boolean> exists(List<Integer> hotelIds);
 }

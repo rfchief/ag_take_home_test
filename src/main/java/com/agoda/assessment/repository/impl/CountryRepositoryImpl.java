@@ -7,21 +7,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.Set;
 
 @Repository
 public class CountryRepositoryImpl implements CountryRepository {
 
-    private final CopyOnWriteArraySet<Integer> countryIdStorage;
+    private Set<Integer> countryIdStorage;
 
     @Autowired
-    public CountryRepositoryImpl(@Qualifier("countryIdStorage") CopyOnWriteArraySet<Integer> countryIdStorage) {
+    public CountryRepositoryImpl(@Qualifier("countryIdStorage") Set<Integer> countryIdStorage) {
         this.countryIdStorage = countryIdStorage;
-    }
-
-    @Override
-    public void save(List<Integer> countryIds) {
-        countryIdStorage.addAll(countryIds);
     }
 
     @Override
@@ -35,9 +30,8 @@ public class CountryRepositoryImpl implements CountryRepository {
     }
 
     @Override
-    public void replace(List<Integer> newCountryIds) {
-        countryIdStorage.clear();
-        countryIdStorage.addAll(newCountryIds);
+    public void replace(Set<Integer> newCountryIds) {
+        countryIdStorage = newCountryIds;
     }
 
     @Override

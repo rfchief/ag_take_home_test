@@ -4,12 +4,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.Set;
 
 public class TestDataFactory {
 
-    public static CopyOnWriteArraySet<Integer> getHotelIdStorage() {
-        CopyOnWriteArraySet<Integer> storage = Sets.newCopyOnWriteArraySet();
+    public static Set<Integer> getHotelIdStorage() {
+        Set<Integer> storage = Sets.newConcurrentHashSet();
         storage.addAll(getHotelIds());
 
         return storage;

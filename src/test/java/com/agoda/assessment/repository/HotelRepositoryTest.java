@@ -2,16 +2,16 @@ package com.agoda.assessment.repository;
 
 import com.agoda.assessment.TestDataFactory;
 import com.agoda.assessment.repository.impl.HotelRepositoryImpl;
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 
 public class HotelRepositoryTest {
 
@@ -28,37 +28,9 @@ public class HotelRepositoryTest {
     }
 
     @Test
-    public void givenEmptyHotelIds_whenSave_thenDoNothingTest(){
-        //given
-        List<Integer> emtpyHotelIds = Lists.newArrayList();
-        int initialSize = repository.countAll();
-
-        //when
-        repository.save(emtpyHotelIds);
-
-        //then
-        int actual = repository.countAll();
-        assertThat(actual, is(initialSize));
-    }
-
-    @Test
-    public void givenHotelIds_whenSave_thenSaveIdsTest() {
-        //given
-        List<Integer> given = Lists.newArrayList(1, 3, 5, 7);
-
-        //when
-        repository.save(given);
-
-        //then
-        assertThat(repository.countAll(), greaterThanOrEqualTo(given.size()));
-        for (Integer givenHotelId : given)
-            assertThat(repository.exists(givenHotelId), is(true));
-    }
-
-    @Test
     public void givenNewHotelIds_whenReplace_thenReplacedAllElementsTest() {
         //given
-        List<Integer> newHotelIds = Lists.newArrayList(90, 91, 92, 93, 94, 95, 96, 97);
+        Set<Integer> newHotelIds = Sets.newHashSet(90, 91, 92, 93, 94, 95, 96, 97);
 
         //when
         repository.replace(newHotelIds);

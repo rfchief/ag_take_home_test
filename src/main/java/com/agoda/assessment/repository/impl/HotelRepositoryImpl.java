@@ -5,28 +5,18 @@ import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.Set;
 
 @Repository
 public class HotelRepositoryImpl implements HotelRepository {
 
-    private final CopyOnWriteArraySet<Integer> hotelIdStorage;
+    private Set<Integer> hotelIdStorage;
 
     @Autowired
-    public HotelRepositoryImpl(@Qualifier("hotelIdStorage") CopyOnWriteArraySet<Integer> hotelIdStorage) {
+    public HotelRepositoryImpl(@Qualifier("hotelIdStorage") Set<Integer> hotelIdStorage) {
         this.hotelIdStorage = hotelIdStorage;
-    }
-
-    @Override
-    public void save(List<Integer> hotelIds) {
-        if(CollectionUtils.isEmpty(hotelIds))
-            return;
-
-        hotelIdStorage.addAll(hotelIds);
     }
 
     @Override
@@ -40,9 +30,8 @@ public class HotelRepositoryImpl implements HotelRepository {
     }
 
     @Override
-    public void replace(List<Integer> newHotelIds) {
-        hotelIdStorage.clear();
-        hotelIdStorage.addAll(newHotelIds);
+    public void replace(Set<Integer> newHotelIds) {
+        hotelIdStorage = newHotelIds;
     }
 
     @Override
