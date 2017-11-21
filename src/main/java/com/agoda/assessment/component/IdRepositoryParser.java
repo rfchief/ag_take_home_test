@@ -5,6 +5,7 @@ import com.agoda.assessment.model.RequestIdPair;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Slf4j
 @Component
 public class IdRepositoryParser {
 
@@ -30,15 +32,17 @@ public class IdRepositoryParser {
     }
 
     private Map<Integer, Set<Integer>> getPartitionedIdsMap(IdType idType, List<RequestIdPair> requestIdPairs) {
-        Map<Integer, Set<Integer>> idsMap = createAndInitIdsMap();
+        Map<Integer, Set<Integer>> partitionedIdsMap = createAndInitIdsMap();
         for (RequestIdPair requestIdPair : requestIdPairs) {
-            if(requestIdPair.isValid()) {
+            if(requestIdPair.isNotValid()) {
+                log.info("Invalid Request. [Hotel Id : {}, Country Id : {}]", requestIdPair.getHotelId(), requestIdPair.getCountryId());
+            } else {
                 int inputId = requestIdPair.getIdWith(idType);
-                idsMap.get(getPartitionKey(inputId)).add(inputId);
+                partitionedIdsMap.get(getPartitionKey(inputId)).add(inputId);
             }
         }
 
-        return idsMap;
+        return partitionedIdsMap;
     }
 
     private int getPartitionKey(int inputId) {

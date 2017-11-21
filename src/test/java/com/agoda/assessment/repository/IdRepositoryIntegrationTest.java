@@ -1,8 +1,6 @@
 package com.agoda.assessment.repository;
 
 import com.agoda.assessment.util.TestDataFactory;
-import com.google.common.collect.Lists;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
