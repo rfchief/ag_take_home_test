@@ -1,13 +1,20 @@
 package com.agoda.assessment.util;
 
 import com.agoda.assessment.model.RequestIdPair;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.*;
 
 public class TestDataFactory {
+
+    private static ObjectMapper objectMapper = new ObjectMapper();
 
     public static Map<Integer, Set<Integer>> getIdStorage() {
         return getIdStorage(5);
@@ -85,4 +92,13 @@ public class TestDataFactory {
         return random.nextInt();
     }
 
+    public static List<RequestIdPair> getRequestIdPairs() throws IOException {
+        String filePath = System.getProperty("user.dir") + "/src/test/resources/request_idpairs.json";
+        return Lists.newArrayList(objectMapper.readValue(getFileContents(filePath), RequestIdPair[].class));
+    }
+
+    private static String getFileContents(String filePath) throws IOException {
+        File file = FileUtils.getFile(filePath);
+        return FileUtils.readFileToString(file, Charset.forName("UTF-8"));
+    }
 }

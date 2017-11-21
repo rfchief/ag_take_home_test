@@ -56,7 +56,7 @@ public class IdRepositoryParser {
     private Map<Integer, Set<Integer>> createAndInitIdsMap() {
         Map<Integer, Set<Integer>> idsMap = Maps.newHashMap();
         for (int i = 0; i < partitionSize; i++)
-            idsMap.put(i, Sets.newHashSet());
+            idsMap.put(i, Sets.newConcurrentHashSet());
 
         return idsMap;
     }
