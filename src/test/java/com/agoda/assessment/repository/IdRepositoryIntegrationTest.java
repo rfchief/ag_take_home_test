@@ -25,11 +25,6 @@ public class IdRepositoryIntegrationTest {
     @Qualifier("hotelIdRepository")
     private IdRepository hotelIdRepository;
 
-    @Before
-    public void setup() {
-
-    }
-
     @Test
     public void doNothingTest() {
         System.out.println("Spring Context Loading is OK!!!");

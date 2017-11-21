@@ -20,7 +20,7 @@ public class IdRepositoryParser {
     private final int partitionSize;
 
     @Autowired
-    public IdRepositoryParser(@Value("app.repository.partitionSize") int partitionSize) {
+    public IdRepositoryParser(@Value("${app.repository.partitionSize}") int partitionSize) {
         this.partitionSize = partitionSize;
     }
 
