@@ -101,4 +101,8 @@ public class TestDataFactory {
         File file = FileUtils.getFile(filePath);
         return FileUtils.readFileToString(file, Charset.forName("UTF-8"));
     }
+
+    public static List<RequestIdPair> getHttpRequestIdPairs() {
+        return null;
+    }
 }

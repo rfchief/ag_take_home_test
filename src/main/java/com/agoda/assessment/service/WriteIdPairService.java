@@ -5,6 +5,7 @@ import com.agoda.assessment.enums.IdType;
 import com.agoda.assessment.model.RequestIdPair;
 import com.agoda.assessment.repository.IdRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,18 @@ public class WriteIdPairService {
     }
 
     public void write(List<RequestIdPair> requestIdPairs) {
+        log.debug("Start process for replace ID pairs. [Total Size : {}]", requestIdPairs.size());
+        StopWatch sw = new StopWatch();
+        sw.reset();
+        sw.start();
+
+        doReplaceIds(requestIdPairs);
+
+        sw.stop();
+        log.debug("End of process for replacing ID pairs. [Execution time : {} sec]", sw.toString());
+    }
+
+    private void doReplaceIds(List<RequestIdPair> requestIdPairs) {
         Map<Integer, Set<Integer>> partitionedHotelIdsMap = getPartitionedIdMap(requestIdPairs, IdType.HOTEL);
         Map<Integer, Set<Integer>> partitionedCountryIdsMap = getPartitionedIdMap(requestIdPairs, IdType.COUNTRY);
 
