@@ -14,10 +14,11 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 @Slf4j
 @Service
@@ -46,22 +47,26 @@ public class ReadIdPairService {
         return getHotelIdScores(requestIdPairs, getHotelScore(), getCountryScore());
     }
 
-    public List<HotelIdScore> readByAsync(List<RequestIdPair> requestIdPairs) {
+    public List<HotelIdScore> asyncRead(List<RequestIdPair> requestIdPairs) {
         if(isEmpty(requestIdPairs))
             return Lists.newArrayList();
 
-        int hotelScore = getHotelScore();
-        int countryScore = getCountryScore();
+        return asyncGetHotelIdScores(requestIdPairs);
+    }
 
+    private List<HotelIdScore> asyncGetHotelIdScores(List<RequestIdPair> requestIdPairs) {
+        List<CompletableFuture<List<HotelIdScore>>> futures = getFutureHotelIdScores(requestIdPairs, getHotelScore(), getCountryScore());
+        return getResultFrom(futures, requestIdPairs.size());
+    }
+
+    private List<CompletableFuture<List<HotelIdScore>>> getFutureHotelIdScores(List<RequestIdPair> requestIdPairs, int hotelScore, int countryScore) {
         List<List<RequestIdPair>> dividedRequests = divideRequestIdPairs(requestIdPairs, getDivideSize());
         List<CompletableFuture<List<HotelIdScore>>> completableFutures = Lists.newArrayListWithExpectedSize(dividedRequests.size());
 
         for (List<RequestIdPair> dividedRequest : dividedRequests)
             completableFutures.add(getHotelIdScoresByAsync(dividedRequest, hotelScore, countryScore));
 
-        List<HotelIdScore> hotelIdScores = Lists.newArrayList();
-
-        return hotelIdScores;
+        return completableFutures;
     }
 
     @Async
@@ -71,10 +76,39 @@ public class ReadIdPairService {
 
     private List<HotelIdScore> getHotelIdScores(List<RequestIdPair> requestIdPairs, int hotelScore, int countryScore) {
         List<HotelIdScore> hotelIdScores = Lists.newArrayListWithExpectedSize(requestIdPairs.size());
+
         for (RequestIdPair requestIdPair : requestIdPairs) {
-            hotelIdScores.add(getHotelIdScore(requestIdPair.getIdWith(IdType.HOTEL)
-                                                , requestIdPair.getIdWith(IdType.COUNTRY)
-                                                , hotelScore, countryScore));
+            int hotelId = requestIdPair.getIdWith(IdType.HOTEL);
+            int countryId = requestIdPair.getIdWith(IdType.COUNTRY);
+
+            hotelIdScores.add(getHotelIdScore(hotelId, countryId, hotelScore, countryScore));
+        }
+
+        return hotelIdScores;
+    }
+
+    private List<HotelIdScore> getResultFrom(List<CompletableFuture<List<HotelIdScore>>> futures, int expectedResultSize) {
+        int completeCount = 0;
+        List<HotelIdScore> hotelIdScores = Lists.newArrayListWithExpectedSize(expectedResultSize);
+
+        for (CompletableFuture<List<HotelIdScore>> future : futures) {
+            if(future.isDone()) {
+                try {
+                    List<HotelIdScore> actual = future.get(1, TimeUnit.SECONDS);
+                    hotelIdScores.addAll(actual);
+                } catch (InterruptedException e) {
+                    log.error("Failed to get HotelIdScores. [ Message : {}]", e.getMessage());
+                } catch (ExecutionException e) {
+                    log.error("Failed to get HotelIdScores. [ Message : {}]", e.getMessage());
+                } catch (TimeoutException e) {
+                    log.error("Failed to get HotelIdScores. [ Message : {}]", e.getMessage());
+                }
+
+                completeCount++;
+            }
+
+            if(completeCount == futures.size())
+                break;
         }
 
         return hotelIdScores;
