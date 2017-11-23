@@ -1,6 +1,6 @@
 package com.agoda.assessment.model;
 
-import com.agoda.assessment.enums.IdType;
+import com.agoda.assessment.model.enums.IdType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

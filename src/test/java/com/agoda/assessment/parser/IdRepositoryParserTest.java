@@ -1,6 +1,6 @@
 package com.agoda.assessment.parser;
 
-import com.agoda.assessment.enums.IdType;
+import com.agoda.assessment.model.enums.IdType;
 import com.agoda.assessment.model.RequestIdPair;
 import com.agoda.assessment.util.TestDataFactory;
 import com.google.common.collect.Lists;

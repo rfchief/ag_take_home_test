@@ -1,7 +1,7 @@
 package com.agoda.assessment.service;
 
 import com.agoda.assessment.parser.IdRepositoryParser;
-import com.agoda.assessment.enums.IdType;
+import com.agoda.assessment.model.enums.IdType;
 import com.agoda.assessment.model.RequestIdPair;
 import com.agoda.assessment.repository.IdRepository;
 import lombok.extern.slf4j.Slf4j;

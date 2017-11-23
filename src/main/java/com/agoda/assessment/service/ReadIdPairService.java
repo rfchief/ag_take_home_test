@@ -1,6 +1,6 @@
 package com.agoda.assessment.service;
 
-import com.agoda.assessment.enums.IdType;
+import com.agoda.assessment.model.enums.IdType;
 import com.agoda.assessment.model.HotelIdScore;
 import com.agoda.assessment.model.RequestIdPair;
 import com.agoda.assessment.repository.ConfigRepository;
