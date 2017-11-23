@@ -25,7 +25,7 @@ public class WriteIdPairService {
     @Autowired
     public WriteIdPairService(IdRepositoryParser idRepositoryParser,
                               @Qualifier("hotelIdRepository") IdRepository hotelIdRepository,
-                              @Qualifier("hotelIdRepository") IdRepository countryIdRepository) {
+                              @Qualifier("countryIdRepository") IdRepository countryIdRepository) {
         this.idRepositoryParser = idRepositoryParser;
         this.hotelIdRepository = hotelIdRepository;
         this.countryIdRepository = countryIdRepository;

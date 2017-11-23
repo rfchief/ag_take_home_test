@@ -134,7 +134,7 @@ public class ReadIdPairService {
     }
 
     private int getDivideSize() {
-        return configRepository.getDevideSize();
+        return configRepository.getDivideSize();
     }
 
     private int getCountryScore() {
