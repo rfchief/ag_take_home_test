@@ -1,4 +1,4 @@
-package com.agoda.assessment.component;
+package com.agoda.assessment.parser;
 
 import com.agoda.assessment.enums.IdType;
 import com.agoda.assessment.model.RequestIdPair;

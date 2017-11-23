@@ -1,6 +1,6 @@
 package com.agoda.assessment.service;
 
-import com.agoda.assessment.component.IdRepositoryParser;
+import com.agoda.assessment.parser.IdRepositoryParser;
 import com.agoda.assessment.model.RequestIdPair;
 import com.agoda.assessment.repository.impl.IdRepositoryImpl;
 import com.agoda.assessment.util.TestDataFactory;

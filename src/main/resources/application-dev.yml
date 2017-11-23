@@ -1,3 +1,10 @@
 app:
   repository:
     partitionSize: 5
+  async:
+    pool:
+      coreSize: 2
+      maxSize : 2
+    queueCapacity: 200
+    thread:
+      namePrefix: AgAssessment-

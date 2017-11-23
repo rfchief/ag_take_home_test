@@ -1,11 +1,13 @@
 package com.agoda.assessment;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.agoda.assessment")
+@EnableAutoConfiguration
 public class AgAssessmentApplication {
 
 	public static void main(String[] args) {

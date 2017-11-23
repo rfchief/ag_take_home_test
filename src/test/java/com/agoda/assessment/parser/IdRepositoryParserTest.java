@@ -1,4 +1,4 @@
-package com.agoda.assessment.component;
+package com.agoda.assessment.parser;
 
 import com.agoda.assessment.enums.IdType;
 import com.agoda.assessment.model.RequestIdPair;
@@ -7,7 +7,6 @@ import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

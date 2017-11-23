@@ -1,6 +1,6 @@
 package com.agoda.assessment.service;
 
-import com.agoda.assessment.component.IdRepositoryParser;
+import com.agoda.assessment.parser.IdRepositoryParser;
 import com.agoda.assessment.enums.IdType;
 import com.agoda.assessment.model.RequestIdPair;
 import com.agoda.assessment.repository.IdRepository;
@@ -32,15 +32,11 @@ public class WriteIdPairService {
     }
 
     public void write(List<RequestIdPair> requestIdPairs) {
-        log.debug("Start process for replace ID pairs. [Total Size : {}]", requestIdPairs.size());
-        StopWatch sw = new StopWatch();
-        sw.reset();
-        sw.start();
+        StopWatch sw = startDebugging(requestIdPairs.size());
 
         doReplaceIds(requestIdPairs);
 
-        sw.stop();
-        log.debug("End of process for replacing ID pairs. [Execution time : {} sec]", sw.toString());
+        stopDebugging(sw);
     }
 
     private void doReplaceIds(List<RequestIdPair> requestIdPairs) {
@@ -64,4 +60,25 @@ public class WriteIdPairService {
     private Map<Integer, Set<Integer>> getPartitionedIdMap(List<RequestIdPair> requestIdPairs, IdType type) {
         return idRepositoryParser.parse(requestIdPairs, type);
     }
+
+    private void stopDebugging(StopWatch sw) {
+        if(log.isDebugEnabled()){
+            sw.stop();
+            log.debug("End of process for replacing ID pairs. [Execution time : {}]", sw.toString());
+        }
+    }
+
+    private StopWatch startDebugging(int size) {
+        StopWatch sw = null;
+        if(!log.isDebugEnabled())
+            return sw;
+
+        log.debug("Start process for replace ID pairs. [Total Size : {}]", size);
+        sw = new StopWatch();
+        sw.reset();
+        sw.start();
+
+        return sw;
+    }
+
 }

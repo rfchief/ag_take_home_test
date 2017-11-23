@@ -1,10 +1,11 @@
 package com.agoda.assessment.service;
 
-import com.agoda.assessment.component.IdRepositoryParser;
+import com.agoda.assessment.parser.IdRepositoryParser;
 import com.agoda.assessment.model.HotelIdScore;
 import com.agoda.assessment.model.RequestIdPair;
 import com.agoda.assessment.repository.ConfigRepository;
 import com.agoda.assessment.repository.impl.IdRepositoryImpl;
+import com.agoda.assessment.strategy.BasicCalculateStrategy;
 import com.agoda.assessment.util.TestDataFactory;
 import com.google.common.collect.Maps;
 import org.junit.Before;
@@ -25,11 +26,12 @@ public class ReadIdPairServiceTest {
     private IdRepositoryImpl countryIdRepository;
     private List<RequestIdPair> insertedRequestIdPairs;
     private ConfigRepository configRepository;
+    private BasicCalculateStrategy calculateStrategy;
 
     @Before
     public void setup() throws IOException {
         initFieldVariables();
-        this.readIdService = new ReadIdPairService(hotelIdRepository, countryIdRepository, configRepository);
+        this.readIdService = new ReadIdPairService(hotelIdRepository, countryIdRepository, configRepository, calculateStrategy);
     }
 
     private void initFieldVariables() throws IOException {
@@ -38,6 +40,7 @@ public class ReadIdPairServiceTest {
         this.hotelIdRepository = new IdRepositoryImpl(partitionSize);
         this.countryIdRepository = new IdRepositoryImpl(partitionSize);
         this.configRepository = new ConfigRepository(Maps.newHashMap());
+        this.calculateStrategy = new BasicCalculateStrategy();
         WriteIdPairService writeIdPairService = new WriteIdPairService(new IdRepositoryParser(partitionSize),
                                                                         hotelIdRepository,
                                                                         countryIdRepository);

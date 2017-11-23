@@ -12,7 +12,19 @@ public class ConfigRepository {
         this.configRepository = configRepository;
     }
 
-    public int getInt(String configName) {
+    public int getDevideSize(){
+        return getInt("devideSize");
+    }
+
+    public int getHotelScore(){
+        return getInt("hotelScore");
+    }
+
+    public int getCountryScore() {
+        return getInt("countryScore");
+    }
+
+    private int getInt(String configName) {
         return NumberUtils.toInt(configRepository.get(configName));
     }
 }

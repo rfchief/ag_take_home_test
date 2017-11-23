@@ -34,10 +34,19 @@ public class RepositoryConfig {
 
     @Bean(name = "configRepository")
     public ConfigRepository getConfigRepository() {
-        return new ConfigRepository(Maps.newHashMap());
+        return new ConfigRepository(initConfigMap());
     }
 
-    private boolean isNotValid(@Value("app.repository.partition.size") int partitionSize) {
+    private Map<String, String> initConfigMap() {
+        Map<String, String> configMap = Maps.newHashMap();
+        configMap.put("divideSize", "10");
+        configMap.put("hotelScore", "5");
+        configMap.put("countryScore", "3");
+
+        return configMap;
+    }
+
+    private boolean isNotValid(int partitionSize) {
         return partitionSize < 0;
     }
 }
