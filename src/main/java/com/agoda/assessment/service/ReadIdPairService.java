@@ -40,14 +40,14 @@ public class ReadIdPairService {
         this.calculateStrategy = calculateStrategy;
     }
 
-    public List<HotelIdScore> read(List<RequestIdPair> requestIdPairs) {
+    public List<HotelIdScore> getScores(List<RequestIdPair> requestIdPairs) {
         if(isEmpty(requestIdPairs))
             return Lists.newArrayList();
 
         return getHotelIdScores(requestIdPairs, getHotelScore(), getCountryScore());
     }
 
-    public List<HotelIdScore> asyncRead(List<RequestIdPair> requestIdPairs) {
+    public List<HotelIdScore> asyncGetScores(List<RequestIdPair> requestIdPairs) {
         if(isEmpty(requestIdPairs))
             return Lists.newArrayList();
 

@@ -58,7 +58,7 @@ public class ReadIdPairServiceTest {
         List<RequestIdPair> givenRequestIdPairs = TestDataFactory.getHttpRequestIdPairs();
 
         //when
-        List<HotelIdScore> actual = readIdService.read(givenRequestIdPairs);
+        List<HotelIdScore> actual = readIdService.getScores(givenRequestIdPairs);
 
         //then
         assertThat(actual, is(notNullValue()));

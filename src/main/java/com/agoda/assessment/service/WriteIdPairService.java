@@ -62,7 +62,7 @@ public class WriteIdPairService {
     }
 
     private void stopDebugging(StopWatch sw) {
-        if(log.isDebugEnabled()){
+        if(log.isDebugEnabled() && sw != null){
             sw.stop();
             log.debug("End of process for replacing ID pairs. [Execution time : {}]", sw.toString());
         }

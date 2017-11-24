@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@RestController("/config")
+@RestController
+@RequestMapping("/config")
 public class AppConfigController {
 
     private final AppConfigService appConfigService;

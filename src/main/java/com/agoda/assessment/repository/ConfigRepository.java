@@ -30,7 +30,7 @@ public class ConfigRepository {
     }
 
     public void updateDivideSize(int divideSize) {
-        Preconditions.checkArgument(divideSize <= 0, "DivideSize config must be great zero!!");
+        Preconditions.checkArgument(divideSize > 0, "DivideSize config must be great zero!!");
         configRepository.put("divideSize", String.valueOf(divideSize));
     }
 
