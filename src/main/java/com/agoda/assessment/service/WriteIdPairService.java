@@ -32,11 +32,11 @@ public class WriteIdPairService {
     }
 
     public void write(List<RequestIdPair> requestIdPairs) {
-        StopWatch sw = startDebugging(requestIdPairs.size());
+        StopWatch sw = startStopWatch(requestIdPairs.size());
 
         doReplaceIds(requestIdPairs);
 
-        stopDebugging(sw);
+        stopStopWatch(sw);
     }
 
     private void doReplaceIds(List<RequestIdPair> requestIdPairs) {
@@ -61,20 +61,14 @@ public class WriteIdPairService {
         return idRepositoryParser.parse(requestIdPairs, type);
     }
 
-    private void stopDebugging(StopWatch sw) {
-        if(log.isDebugEnabled() && sw != null){
-            sw.stop();
-            log.debug("End of process for replacing ID pairs. [Execution time : {}]", sw.toString());
-        }
+    private void stopStopWatch(StopWatch sw) {
+        sw.stop();
+        log.info("End of process for replacing ID pairs. [Execution time : {}]", sw.toString());
     }
 
-    private StopWatch startDebugging(int size) {
-        StopWatch sw = null;
-        if(!log.isDebugEnabled())
-            return sw;
-
-        log.debug("Start process for replace ID pairs. [Total Size : {}]", size);
-        sw = new StopWatch();
+    private StopWatch startStopWatch(int size) {
+        log.info("Start process for replace ID pairs. [Total Size : {}]", size);
+        StopWatch sw = new StopWatch();
         sw.reset();
         sw.start();
 

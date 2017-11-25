@@ -1,6 +1,9 @@
 package com.agoda.assessment.model;
 
 import com.agoda.assessment.model.enums.IdType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,14 +22,17 @@ public class RequestIdPair implements Serializable {
         this.countryId = countryId;
     }
 
+    @JsonIgnore
     public boolean isValid() {
         return hotelId >= 0 || countryId >= 0;
     }
 
+    @JsonIgnore
     public boolean isNotValid() {
         return !isValid();
     }
 
+    @JsonIgnore
     public int getIdWith(IdType idType) {
         if(idType == IdType.HOTEL)
             return hotelId;

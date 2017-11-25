@@ -8,3 +8,4 @@ app:
     queueCapacity: 200
     thread:
       namePrefix: AgAssessment-
+debug: true
