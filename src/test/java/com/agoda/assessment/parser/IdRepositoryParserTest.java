@@ -48,17 +48,21 @@ public class IdRepositoryParserTest {
     public void givenValidAndInvalidInputIdPairsWithIdType_whenParse_thenReturnOnlyValidIdsTest() {
         //given
         List<RequestIdPair> idPairs = TestDataFactory.getRequestIdPairsWithExpectedSize(100);
-        RequestIdPair invalidRequestIdPair = new RequestIdPair(-1, -1);
+        RequestIdPair invalidRequestIdPairType1 = new RequestIdPair(-1, -1);
+        RequestIdPair invalidRequestIdPairType2 = new RequestIdPair(Integer.MAX_VALUE, Integer.MIN_VALUE);
         List<RequestIdPair> validAndInvalidIdPairs = Lists.newArrayList(idPairs);
-        validAndInvalidIdPairs.add(invalidRequestIdPair);
+        validAndInvalidIdPairs.add(invalidRequestIdPairType1);
+        validAndInvalidIdPairs.add(invalidRequestIdPairType2);
 
         //when
         Map<Integer, Set<Integer>> actual = idRepositoryParser.parse(validAndInvalidIdPairs, IdType.HOTEL);
 
         //then
         assertIdExists(idPairs, actual);
-        for (int i = 0; i < partitionSize; i++)
-            assertThat(actual.get(i).contains(invalidRequestIdPair.getIdWith(IdType.HOTEL)), is(false));
+        for (int i = 0; i < partitionSize; i++) {
+            assertThat(actual.get(i).contains(invalidRequestIdPairType1.getIdWith(IdType.HOTEL)), is(false));
+            assertThat(actual.get(i).contains(invalidRequestIdPairType2.getIdWith(IdType.HOTEL)), is(false));
+        }
     }
 
     private void assertIdExists(List<RequestIdPair> idPairs, Map<Integer, Set<Integer>> actual) {

@@ -1,9 +1,9 @@
 #!/bin/sh
 PROFILE=$1
 CURRENT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-JAVA_OPTS="${JAVA_OPTS} -Xms1G -Xmx1G"
+JAVA_OPTS="${JAVA_OPTS} -Xms2G -Xmx2G"
 JAVA_OPTS="${JAVA_OPTS} -XX:+UseG1GC -XX:MaxGCPauseMillis=30"
-JAVA_OPTS="${JAVA_OPTS} -Xloggc:${CURRENT_DIRECTORY}/logs/GC.log"
+JAVA_OPTS="${JAVA_OPTS} -Xloggc:${CURRENT_DIRECTORY}/GC.log"
 JAVA_OPTS="${JAVA_OPTS} -verbose:gc -XX:+PrintGCTimeStamps -XX:+PrintGCDetails"
 JAVA_OPTS="${JAVA_OPTS} -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=20M"
 JAVA_OPTS="${JAVA_OPTS} -Dsun.net.inetaddr.ttl=0"
@@ -21,7 +21,7 @@ fi
 
 echo "Ag_Assessment process is starting."
 
-java -server $JAVA_OPTS -jar $CURRENT_DIRECTORY/ag_assessment.jar > $CURRENT_DIRECTORY/logs/nohup.log &
+java -server $JAVA_OPTS -jar $CURRENT_DIRECTORY/ag_assessment.jar > $CURRENT_DIRECTORY/nohup.log &
 sleep 15
 
 AG_PID=`ps -ef | grep ag_assessment.jar | grep -v grep | awk '{print $2}'`

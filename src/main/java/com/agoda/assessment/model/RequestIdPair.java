@@ -24,7 +24,8 @@ public class RequestIdPair implements Serializable {
 
     @JsonIgnore
     public boolean isValid() {
-        return hotelId >= 0 || countryId >= 0;
+        return (hotelId >= 0 && hotelId <= Integer.MAX_VALUE)
+                && (countryId >= 0 && countryId <= Integer.MAX_VALUE);
     }
 
     @JsonIgnore
